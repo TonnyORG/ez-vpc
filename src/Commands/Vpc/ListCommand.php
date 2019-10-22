@@ -8,10 +8,16 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use EzVpc\Commands\Traits\AwsGetters;
 use EzVpc\Tools\Helpers\Arr;
 
 class ListCommand extends Command
 {
+    /**
+     * Custom traits
+     */
+    use AwsGetters;
+
     /**
      * @var string|null The default command name
      */
