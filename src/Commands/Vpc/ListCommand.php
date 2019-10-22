@@ -50,7 +50,7 @@ class ListCommand extends Command
         $progressBar->setMessage('Pulling data from AWS...');
         $progressBar->start();
 
-        $vpcs = $this->getApplication()->aws->ec2->describeVpcs()->get('Vpcs');
+        $vpcs = $this->getVpcs();
         $progressBar->advance();
 
         $progressBar->setMessage('Parsing data...');

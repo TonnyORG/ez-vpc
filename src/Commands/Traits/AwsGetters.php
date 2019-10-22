@@ -4,6 +4,18 @@ namespace EzVpc\Commands\Traits;
 
 trait AwsGetters {
     /**
+     * Returns the "test mode" filder for AWS API calls.
+     *
+     * @return void
+     */
+    public function getTestingFilter()
+    {
+        return [
+            'DryRun' => $this->getApplication()->aws->_testMode,
+        ];
+    }
+
+    /**
      * Returns the value for the tag that match with the given $key.
      *
      * @param string $key
@@ -27,6 +39,21 @@ trait AwsGetters {
     }
 
     /**
+     * Wrapper for "describeAvailabilityZones".
+     *
+     * @param array $params
+     * @return array
+     */
+    public function getAvailabilityZones(array $params = [])
+    {
+        $params = array_merge($this->getTestingFilter(), $params);
+
+        return $this->getApplication()->aws->ec2
+            ->describeAvailabilityZones($params)
+            ->get('AvailabilityZones');
+    }
+
+    /**
      * Wrapper for "describeDhcpOptions".
      *
      * @param array $params
@@ -34,6 +61,8 @@ trait AwsGetters {
      */
     public function getDhcpOptions(array $params = [])
     {
+        $params = array_merge($this->getTestingFilter(), $params);
+
         return $this->getApplication()->aws->ec2
             ->describeDhcpOptions($params)
             ->get('DhcpOptions');
@@ -47,6 +76,8 @@ trait AwsGetters {
      */
     public function getInternetGateways(array $params = [])
     {
+        $params = array_merge($this->getTestingFilter(), $params);
+
         return $this->getApplication()->aws->ec2
             ->describeInternetGateways($params)
             ->get('InternetGateways');
@@ -60,6 +91,8 @@ trait AwsGetters {
      */
     public function getNetworkAcls(array $params = [])
     {
+        $params = array_merge($this->getTestingFilter(), $params);
+
         return $this->getApplication()->aws->ec2
             ->describeNetworkAcls($params)
             ->get('NetworkAcls');
@@ -73,6 +106,8 @@ trait AwsGetters {
      */
     public function getRouteTables(array $params = [])
     {
+        $params = array_merge($this->getTestingFilter(), $params);
+
         return $this->getApplication()->aws->ec2
             ->describeRouteTables($params)
             ->get('RouteTables');
@@ -86,6 +121,8 @@ trait AwsGetters {
      */
     public function getSecurityGroups(array $params = [])
     {
+        $params = array_merge($this->getTestingFilter(), $params);
+
         return $this->getApplication()->aws->ec2
             ->describeSecurityGroups($params)
             ->get('SecurityGroups');
@@ -99,6 +136,8 @@ trait AwsGetters {
      */
     public function getSubnets(array $params = [])
     {
+        $params = array_merge($this->getTestingFilter(), $params);
+
         return $this->getApplication()->aws->ec2
             ->describeSubnets($params)
             ->get('Subnets');
@@ -112,6 +151,8 @@ trait AwsGetters {
      */
     public function getVpcs(array $params = [])
     {
+        $params = array_merge($this->getTestingFilter(), $params);
+
         return $this->getApplication()->aws->ec2
             ->describeVpcs($params)
             ->get('Vpcs');
