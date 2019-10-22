@@ -45,9 +45,8 @@ class ListCommand extends Command
         $sectionProgressBar = $output->section();
         $sectionTable = $output->section();
 
-        $sectionProgressBar->writeln('');
         $progressBar = new ProgressBar($sectionProgressBar);
-        $progressBar->setFormat('[%bar%] %percent:3s%% %elapsed:6s% %memory:6s% -- %message%');
+        $progressBar->setFormat('%message%');
         $progressBar->setMessage('Pulling data from AWS...');
         $progressBar->start();
 
@@ -63,11 +62,11 @@ class ListCommand extends Command
         $table
             ->setHeaders($headers)
             ->setRows(Arr::prepareDataForTable($headers, $vpcs));
-        $table->render();
-        $progressBar->setMessage('Done!');
-        $progressBar->finish();
 
-        $sectionProgressBar->writeln('');
+        $progressBar->finish();
+        $progressBar->clear();
+
+        $table->render();
         $sectionTable->writeln('');
     }
 }
