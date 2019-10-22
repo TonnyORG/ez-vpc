@@ -1,0 +1,37 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__.'/vendor/autoload.php';
+require __DIR__.'/init.php';
+
+use Aws\Ec2\Ec2Client;
+use Symfony\Component\Console\Application;
+
+/**
+ * Init app and auto-register all the available commands
+ */
+$application = new Application('EZ VPC', '1.0.0');
+
+$application->aws = (object) [
+    '_config' => [
+        'version'     => 'latest',
+        'region'      => getenv('AWS_REGION'),
+        'credentials' => [
+            'key'    => getenv('AWS_ACCESS_KEY_ID'),
+            'secret' => getenv('AWS_SECRET_ACCESS_KEY'),
+        ],
+    ],
+];
+
+$application->aws->ec2 = new Ec2Client($application->aws->_config);
+$application->aws->_testMode = getenv('AWS_TEST_MODE') !== '0';
+
+/**
+ * Registering all the available commands
+ */
+while (count($commandsClasses)) {
+    $commandClass = array_shift($commandsClasses);
+    $application->add(new $commandClass);
+}
+
+$application->run();
