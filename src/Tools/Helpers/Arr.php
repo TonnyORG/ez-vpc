@@ -58,7 +58,7 @@ class Arr
      * @param array $items
      * @return array
      */
-    public static function indexArrayById(string $key, array $items)
+    public static function reindexArrayByKey(string $key, array $items)
     {
         foreach ($items as $index => $item) {
             unset($items[$index]);
